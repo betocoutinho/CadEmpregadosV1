@@ -1,5 +1,7 @@
 package com.example.cadempregadosv1;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,12 +37,34 @@ public class EmpregadoAdapter extends RecyclerView.Adapter<EmpregadoAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final EmpregadoModel empregado = empregados.get(position);
 
         holder.idview.setText(Integer.toString(empregado.getId()));
         holder.nome_text.setText(empregado.getNome());
         holder.email_text.setText(empregado.getEmail());
+
+        holder.button_editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nome = holder.nome_text.getText().toString();
+                String email = holder.email_text.getText().toString();
+
+                dataBaseHelper.atualizarEmpregrado(new EmpregadoModel(empregado.getId(), nome, email));
+                notifyDataSetChanged();
+                ((Activity) context).finish();
+                context.startActivity(((Activity) context).getIntent());
+            }
+        });
+
+        holder.button_remover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataBaseHelper.removerEmpregado(empregado.getId());
+                empregados.remove(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

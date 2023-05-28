@@ -74,4 +74,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return lista;
 
     }
+
+    public void atualizarEmpregrado(EmpregadoModel empregadoModel){
+        ContentValues cv = new ContentValues();
+        cv.put(DataBaseHelper.NOME, empregadoModel.getNome());
+        cv.put(DataBaseHelper.EMAIL, empregadoModel.getEmail());
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.update(TABLE_NAME, cv, ID + "=?", new String[]{String.valueOf(empregadoModel.getId())});
+    }
+
+    public void removerEmpregado(int id){
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME, ID + "=?", new String[]{String.valueOf(id)});
+    }
 }
