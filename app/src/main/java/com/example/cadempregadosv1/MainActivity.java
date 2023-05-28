@@ -2,6 +2,7 @@ package com.example.cadempregadosv1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,5 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        button_ver_emp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, VisualizarEmpregados.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

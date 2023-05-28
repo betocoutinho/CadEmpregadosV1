@@ -2,10 +2,14 @@ package com.example.cadempregadosv1;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -46,5 +50,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(DataBaseHelper.EMAIL, empregadoModel.getEmail());
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.insert(DataBaseHelper.TABLE_NAME, null, cv);
+    }
+
+    public List<EmpregadoModel> obterEmpregados(){
+        String sql = "SELECT * FROM " + TABLE_NAME;
+        sqLiteDatabase = this.getReadableDatabase();
+
+        List<EmpregadoModel> lista = new ArrayList<>();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()){
+            do{
+                int id = Integer.parseInt(cursor.getString(0));
+                String nome = cursor.getString(1);
+                String email = cursor.getString(2);
+
+                lista.add(new EmpregadoModel(id, nome, email));
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+
     }
 }
