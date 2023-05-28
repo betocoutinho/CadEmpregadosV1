@@ -30,7 +30,13 @@ public class MainActivity extends AppCompatActivity {
                 if (nome.length() <= 0 || nome.length() <= 0){
                     Toast.makeText(MainActivity.this, "Insira todos os dados", Toast.LENGTH_SHORT).show();
                 }else {
+                    DataBaseHelper db = new DataBaseHelper(MainActivity.this);
 
+                    db.adicionarEmpregado(new EmpregadoModel(nome, email));
+                    Toast.makeText(MainActivity.this, "Registro Adicionado", Toast.LENGTH_SHORT).show();
+
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
